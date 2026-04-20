@@ -49,7 +49,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     <>
       <ReadingProgress />
 
-      <div className="max-w-4xl mx-auto px-4 py-20 flex flex-col items-center">
+      <div className="w-full max-w-4xl mx-auto px-4 py-20 flex flex-col items-center">
         {/* Article */}
         <article className="w-full min-w-0">
           {/* Back link */}

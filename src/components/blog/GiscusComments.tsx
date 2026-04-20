@@ -19,10 +19,10 @@ export function GiscusComments() {
       </h3>
       <Giscus
         id="giscus-comments"
-        repo="asimalizada/portfolio" // TODO: update to your repo
-        repoId="YOUR_REPO_ID"        // TODO: get from giscus.app
-        category="Blog Comments"
-        categoryId="YOUR_CATEGORY_ID" // TODO: get from giscus.app
+        repo="asimalizada/portfolio"
+        repoId="R_kgDOSIE4-A"
+        category="General"
+        categoryId="DIC_kwDOSIE4-M4C7Txh"
         mapping="pathname"
         strict="0"
         reactionsEnabled="1"
