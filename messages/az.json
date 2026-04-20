@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "home": "Ana Səhifə",
+    "blog": "Blog",
+    "projects": "Layihələr",
+    "uses": "İstifadə Etdiklərim"
+  },
+  "hero": {
+    "downloadCv": "CV-ni Yüklə",
+    "viewProjects": "Layihələrə Bax",
+    "openToWork": "İş təkliflərinə açıqam"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Proqram mühəndisliyi, arxitektura və inkişaf haqqında fikirlər.",
+    "readMore": "Daha çox oxu",
+    "minRead": "dəq oxu",
+    "search": "Post axtar...",
+    "noResults": "Heç bir post tapılmadı.",
+    "allTags": "Hamısı"
+  },
+  "projects": {
+    "title": "Layihələr",
+    "subtitle": "İnşa etdiyim, çatdırdığım və açıq mənbəyə çıxardığım şeylər.",
+    "viewCode": "Koda Bax",
+    "liveDemo": "Canlı Demo"
+  },
+  "uses": {
+    "title": "İstifadə Etdiklərim",
+    "subtitle": "Gündəlik istifadə etdiyim avadanlıq, proqram və alətlər."
+  },
+  "footer": {
+    "builtWith": "Next.js & MDX ilə qurulmuşdur",
+    "rss": "RSS Axını"
+  },
+  "meta": {
+    "siteTitle": "Asim Alizada | Baş Proqram Mühəndisi",
+    "siteDescription": "Bakı, Azərbaycanda yerləşən, .NET, Node.js, və cloud-native sistemlər üzrə ixtisaslaşmış Baş Proqram Mühəndisi."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "projects": "Projects",
+    "uses": "Uses"
+  },
+  "hero": {
+    "downloadCv": "Download CV",
+    "viewProjects": "View Projects",
+    "openToWork": "Open to opportunities"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts on software engineering, architecture, and the craft of building.",
+    "readMore": "Read more",
+    "minRead": "min read",
+    "search": "Search posts...",
+    "noResults": "No posts found.",
+    "allTags": "All"
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Things I've built, shipped, and open-sourced.",
+    "viewCode": "View Code",
+    "liveDemo": "Live Demo"
+  },
+  "uses": {
+    "title": "Uses",
+    "subtitle": "Hardware, software, and tools I use daily."
+  },
+  "footer": {
+    "builtWith": "Built with Next.js & MDX",
+    "rss": "RSS Feed"
+  },
+  "meta": {
+    "siteTitle": "Asim Alizada | Senior Software Engineer",
+    "siteDescription": "Senior Software Engineer specializing in .NET, Node.js, and cloud-native systems. Based in Istanbul, Türkiye."
+  }
+}

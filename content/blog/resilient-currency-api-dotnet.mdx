@@ -1,0 +1,138 @@
+---
+title: "Building a Resilient Currency API with .NET, Polly, and Redis"
+excerpt: "A deep dive into building a production-ready currency conversion API with circuit breakers, retry policies, distributed caching, and OpenTelemetry all in ASP.NET Core."
+date: "2025-04-17"
+tags: ["dotnet", "csharp", "architecture", "redis", "devops"]
+published: true
+---
+
+# Building a Resilient Currency API with .NET, Polly, and Redis
+
+Modern APIs can't afford to fail silently. When you're building a service that depends on a third-party provider like a currency rate API you need to think about **resilience from day one**.
+
+In this post, I'll walk through the architecture decisions behind a production-ready currency converter API I recently built.
+
+## The Problem
+
+Third-party currency rate providers:
+- Have downtime
+- Return stale data
+- Rate-limit aggressively
+
+A naive implementation that calls the provider on every request will fail in production. We need something smarter.
+
+## The Architecture
+
+Here's the high-level flow:
+
+```
+Client Request
+     │
+     ▼
+Rate Limiter (IP-based)
+     │
+     ▼
+Cache Check (Redis)
+     │
+     ├─── HIT ──▶ Return cached rate
+     │
+     └─── MISS ──▶ Polly Pipeline
+                        │
+                        ├── Retry (3x with exponential backoff)
+                        ├── Circuit Breaker (5 failures → open 30s)
+                        └── Timeout (5s per attempt)
+```
+
+## Implementing the Cache Layer
+
+Redis is our first line of defense. Rates don't change by the second a 5-minute TTL is entirely acceptable for most use cases.
+
+```csharp
+public class CachedCurrencyService : ICurrencyService
+{
+    private readonly IDatabase _redis;
+    private readonly ICurrencyService _inner;
+    private static readonly TimeSpan TTL = TimeSpan.FromMinutes(5);
+
+    public async Task<decimal> GetRateAsync(string from, string to)
+    {
+        var key = $"rate:{from}:{to}";
+        var cached = await _redis.StringGetAsync(key);
+
+        if (cached.HasValue && decimal.TryParse(cached, out var rate))
+            return rate;
+
+        var fresh = await _inner.GetRateAsync(from, to);
+        await _redis.StringSetAsync(key, fresh.ToString(), TTL);
+        return fresh;
+    }
+}
+```
+
+## Polly Resilience Pipeline
+
+Polly v8 introduces a new pipeline-based API that's significantly cleaner than v7:
+
+```csharp
+builder.Services.AddResiliencePipeline<string, decimal>("currency", pipeline =>
+{
+    pipeline
+        .AddRetry(new RetryStrategyOptions<decimal>
+        {
+            MaxRetryAttempts = 3,
+            BackoffType = DelayBackoffType.Exponential,
+            Delay = TimeSpan.FromSeconds(1),
+            ShouldHandle = new PredicateBuilder<decimal>()
+                .Handle<HttpRequestException>()
+        })
+        .AddCircuitBreaker(new CircuitBreakerStrategyOptions<decimal>
+        {
+            FailureRatio = 0.5,
+            SamplingDuration = TimeSpan.FromSeconds(30),
+            MinimumThroughput = 5,
+            BreakDuration = TimeSpan.FromSeconds(30)
+        })
+        .AddTimeout(TimeSpan.FromSeconds(5));
+});
+```
+
+## Observability with OpenTelemetry
+
+No API is complete without observability. Here's how to wire up traces and metrics:
+
+```csharp
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddRedisInstrumentation()
+            .AddOtlpExporter();
+    })
+    .WithMetrics(metrics =>
+    {
+        metrics
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddOtlpExporter();
+    });
+```
+
+## Key Takeaways
+
+| Concern | Solution |
+|---|---|
+| Downtime | Circuit Breaker (Polly) |
+| Slow responses | Timeout policy |
+| Transient errors | Retry with backoff |
+| Performance | Redis distributed cache |
+| Visibility | OpenTelemetry |
+
+By layering these patterns, the API gracefully handles provider outages, degrades under load, and recovers automatically all without any manual intervention.
+
+> The best resilience strategy is one you set up once and forget about. Your system should heal itself.
+
+---
+
+Full source code is available on [GitHub](https://github.com/asimalizada/currency-api).
