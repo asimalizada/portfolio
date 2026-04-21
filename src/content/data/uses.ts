@@ -11,110 +11,120 @@ export interface UseItem {
 
 export const usesData: UseCategory[] = [
   {
-    name: 'Editor & Terminal',
+    name: 'Development Environment',
     items: [
       {
-        name: 'Visual Studio Code',
-        description: 'My primary editor for TypeScript, Node.js, and web work. Highly customized with extensions.',
-        link: 'https://code.visualstudio.com',
+        name: 'Cursor & Antigravity / manus.ai',
+        description: 'Leveraging next-gen AI-native coding agents to accelerate delivery and automate complex workflows.',
       },
       {
-        name: 'JetBrains Rider',
-        description: 'Best-in-class IDE for .NET / C# development. The refactoring tools are unmatched.',
-        link: 'https://www.jetbrains.com/rider',
+        name: 'Visual Studio 2022 / 2026',
+        description: 'The heavyweight powerhouse for high-level enterprise .NET solution management and refactoring.',
       },
       {
-        name: 'Windows Terminal + PowerShell 7',
-        description: 'Fast, customizable terminal with oh-my-posh for a clean look.',
+        name: 'VS Code & DataGrip',
+        description: 'Lightweight polyglot editing and professional-grade database management.',
       },
       {
-        name: 'GitHub Copilot',
-        description: 'AI pair programmer. Useful for boilerplate and quick lookups I still write most of my code.',
+        name: 'Scalar & Postman',
+        description: 'My API design workshop. Scalar for modern documentation; Postman for collaborative contract testing.',
       },
     ],
   },
   {
-    name: 'Languages & Frameworks',
+    name: 'Backend & System Architecture',
     items: [
       {
-        name: 'C# / ASP.NET Core',
-        description: 'My primary backend language. Clean, fast, and the ecosystem around it is excellent.',
+        name: '.NET Core & C# / Node.js & NestJS',
+        description: 'Building resilient systems with Clean, Onion, and Hexagonal architecture patterns.',
       },
       {
-        name: 'TypeScript + Node.js',
-        description: 'For backend APIs when I need JavaScript\'s ecosystem or team familiarity.',
+        name: 'Protocols: gRPC / GraphQL / REST',
+        description: 'Choosing the most efficient communication layer for distributed microservices.',
       },
       {
-        name: 'React / Next.js',
-        description: 'Go-to for anything frontend this site is built on Next.js 15 with App Router.',
+        name: 'Messaging: Kafka & RabbitMQ',
+        description: 'The reliable backbone for asynchronous, event-driven architectures.',
+      },
+      {
+        name: 'Benchmarking: BenchmarkDotNet / Clinic.js',
+        description: 'Continuous performance optimization and bottleneck detection in the runtime.',
+      },
+      {
+        name: 'Security: Burp Suite / SonarQube / Dependabot',
+        description: 'Proactive security testing and static analysis to maintain a robust security posture.',
       },
     ],
   },
   {
-    name: 'Databases & Storage',
+    name: 'Frontend & UI Engineering',
     items: [
       {
-        name: 'PostgreSQL',
-        description: 'My relational database of choice. Rock solid, feature-rich, and open source.',
+        name: 'Next.js & React / React Native',
+        description: 'Developing high-performance user interfaces and cross-platform mobile apps.',
       },
       {
-        name: 'Redis',
-        description: 'For caching, rate limiting, and distributed locking.',
+        name: 'Angular / Shadcn UI / Figma',
+        description: 'Bridging the gap between high-end design and enterprise-level frontend structures.',
       },
       {
-        name: 'MongoDB',
-        description: 'When document-oriented storage makes more sense than relational.',
+        name: 'Mermaid.js & Excalidraw',
+        description: 'Visualizing architectural decisions and complex system flows.',
       },
     ],
   },
   {
-    name: 'Cloud & DevOps',
+    name: 'Infrastructure & DevOps',
     items: [
       {
-        name: 'Microsoft Azure',
-        description: 'Primary cloud provider. Use AKS, App Services, Service Bus, and Key Vault regularly.',
-        link: 'https://azure.microsoft.com',
+        name: 'Kubernetes (K8s) & Docker',
+        description: 'Orchestrating containerized environments using tools like k9s and LazyDocker.',
       },
       {
-        name: 'Docker',
-        description: 'Everything runs in containers. Docker Desktop on local, Docker in CI.',
-        link: 'https://docker.com',
+        name: 'pnpm / NuGet / yarn / npm',
+        description: 'Managing complex dependency trees efficiently across different ecosystems.',
       },
       {
-        name: 'GitHub Actions',
-        description: 'CI/CD pipelines for all my projects. Build, test, deploy all automated.',
+        name: 'Cloud: AWS / Azure / Railway / Cloudflare',
+        description: 'Harnessing global infrastructure, Serverless functions, and secure tunneling.',
       },
       {
-        name: 'Vercel',
-        description: 'Where this site is deployed. Zero-config Next.js deploys on every push.',
-        link: 'https://vercel.com',
+        name: 'Observability: Grafana / Prometheus / Seq / Kibana / Serilog',
+        description: 'Full-stack visibility into system health, metrics, and distributed traces.',
       },
     ],
   },
   {
-    name: 'Productivity',
+    name: 'AI, Productivity & Knowledge',
     items: [
       {
-        name: 'Notion',
-        description: 'Second brain for notes, project planning, and documentation.',
-        link: 'https://notion.so',
+        name: 'Claude / ChatGPT / Gemini',
+        description: 'My AI Brain trust for architectural reviews, logic clarification, and research.',
       },
       {
-        name: 'Postman',
-        description: 'API testing and documentation. Great team collaboration features.',
+        name: 'Notion / Slite / 1Password',
+        description: 'Organizing my engineering second brain and securing critical secrets.',
       },
       {
-        name: 'Figma',
-        description: 'For UI mockups and design handoffs particularly useful when working with designers.',
+        name: 'Slack / MS Teams / ClickUp / Jira',
+        description: 'Synchronizing with teams using Agile methodologies and modern communication.',
+      },
+      {
+        name: 'Workflow: Conventional Commits / Husky',
+        description: 'Enforcing high git standards and automated pre-commit quality checks.',
       },
     ],
   },
   {
-    name: 'Hardware',
+    name: 'Hardware & Core Systems',
     items: [
       {
-        name: 'Custom PC',
-        description: 'My main workstation for heavy builds, Docker workloads, and local dev environments.',
+        name: 'Asus ROG Strix G533QR',
+        description: 'Ryzen 9 5900HX, RTX 3070, 32GB RAM – A dedicated workstation for multi-container development.',
+      },
+      {
+        name: 'WSL2 & PowerShell 7',
+        description: 'Seamlessly blending Windows productivity with native Linux engineering capabilities.',
       },
     ],
   },

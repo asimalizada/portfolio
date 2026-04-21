@@ -26,7 +26,7 @@ export const cvData = {
   github: 'https://github.com/asimalizada',
   linkedin: 'https://www.linkedin.com/in/alizada-asim',
   location: 'Istanbul, Türkiye',
-  timezone: 'AZT (UTC+4)',
+  timezone: 'IST (UTC+3)',
   cvPath: '/cv/Asim Alizada - CV.pdf',
   profilePhoto: '/cv/profile.jpeg',
   summary:
