@@ -10,7 +10,7 @@ class VeliteWebpackPlugin {
     compiler.hooks.beforeCompile.tapPromise('VeliteWebpackPlugin', async () => {
       if (VeliteWebpackPlugin.started) return
       VeliteWebpackPlugin.started = true
-      const { build, watch } = await import('velite')
+      const { build, watch } = await import('velite') as any
       if (compiler.options.mode === 'development') {
         watch({ logLevel: 'warn' })
       } else {

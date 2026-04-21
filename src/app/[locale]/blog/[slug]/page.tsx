@@ -103,9 +103,9 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="flex-1 min-w-0">
               {/* MDX body */}
               <div className="prose prose-lg">
-                <MDXContent code={post.body?.code || (post.body as any)} />
+                <MDXContent code={(post.body as any).code || post.body} />
               </div>
-
+...
               <div className="mt-16 pt-8 border-t" style={{ borderColor: 'var(--border-color)' }}>
                 {/* Comments */}
                 <GiscusComments />
@@ -113,10 +113,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             </div>
 
             {/* ToC Sidebar - Only on desktop, sticky */}
-            {post.body.toc && post.body.toc.length > 0 && (
+            {(post.body as any).toc && (post.body as any).toc.length > 0 && (
               <aside className="hidden xl:block w-64 shrink-0">
                 <div className="sticky top-24">
-                  <TableOfContents toc={post.body.toc} />
+                  <TableOfContents toc={(post.body as any).toc} />
                 </div>
               </aside>
             )}

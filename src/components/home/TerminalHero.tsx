@@ -597,7 +597,7 @@ function InteractiveTerminal({ isOpen, onOpen, onClose }: ITProps) {
         ref={bodyRef}
         className="p-4 sm:p-5"
         animate={{ height: isOpen ? 320 : 185 }}
-        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] as any }}
         style={{ overflowY: isOpen ? 'auto' : 'hidden' }}
       >
         {isOpen
@@ -703,7 +703,7 @@ function ProfileAvatar() {
     <motion.div
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
       className="relative mb-6 w-max mx-auto lg:mx-0"
     >
       <div className="absolute inset-0 rounded-full blur-md opacity-50 scale-110" style={{ background: 'var(--accent-hex)' }} />
@@ -766,7 +766,7 @@ export function TerminalHero() {
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
           className="flex flex-col items-center text-center lg:items-start lg:text-left"
         >
           {/* Inner blur layer when expanded */}
@@ -826,7 +826,7 @@ export function TerminalHero() {
           ref={terminalRef}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any, delay: 0.2 }}
           className="relative lg:h-[450px] flex flex-col items-center justify-center w-full max-w-lg mx-auto mt-6 lg:mt-0"
           style={{ y: y1 }}
         >

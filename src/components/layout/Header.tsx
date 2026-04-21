@@ -44,7 +44,7 @@ export function Header() {
         style={{ borderColor: 'var(--border-color)', background: 'rgba(var(--bg-card), 0.6)' }}
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
       >
         <div className="px-5 h-full flex items-center justify-between gap-4">
         {/* Logo */}

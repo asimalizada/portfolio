@@ -118,7 +118,7 @@ function ProjectCard({ project, isFirst }: { project: typeof projects[number]; i
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] as any }}
         className="h-full rounded-2xl border overflow-hidden transition-all duration-300 hover:border-[var(--accent-hex)]/40 hover:shadow-2xl"
         style={{
           background: 'rgba(var(--bg-card), 0.7)',
