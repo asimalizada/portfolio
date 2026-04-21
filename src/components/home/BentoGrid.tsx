@@ -69,30 +69,51 @@ function AboutCard() {
 // ── 3. Tech Stack Marquee ────────────────────
 const techList = [
   { name: '.NET', icon: <Code2 size={16}/> },
+  { name: 'NestJS', icon: <Server size={16}/> },
   { name: 'Node.js', icon: <Server size={16}/> },
   { name: 'React', icon: <Zap size={16}/> },
-  { name: 'Azure', icon: <Globe size={16}/> },
-  { name: 'Docker', icon: <GitBranch size={16}/> },
+  { name: 'Next.js', icon: <Globe size={16}/> },
+  { name: 'Angular', icon: <Zap size={16}/> },
+  { name: 'React Native', icon: <Zap size={16}/> },
   { name: 'PostgreSQL', icon: <Database size={16}/> },
+  { name: 'MSSQL', icon: <Database size={16}/> },
+  { name: 'MongoDB', icon: <Database size={16}/> },
+  { name: 'Redis', icon: <Zap size={16}/> },
+  { name: 'ElasticSearch', icon: <Database size={16}/> },
+  { name: 'Docker', icon: <GitBranch size={16}/> },
+  { name: 'Kubernetes', icon: <Globe size={16}/> },
+  { name: 'AWS', icon: <Globe size={16}/> },
+  { name: 'Azure', icon: <Globe size={16}/> },
+  { name: 'Cloudflare', icon: <Globe size={16}/> },
+  { name: 'Kafka', icon: <Zap size={16}/> },
+  { name: 'RabbitMQ', icon: <Zap size={16}/> },
+  { name: 'SignalR', icon: <Zap size={16}/> },
+  { name: 'Railway', icon: <Server size={16}/> },
 ]
 
 function TechMarqueeCard() {
-  // We duplicate the list to make the CSS infinite marquee smooth
-  const repeated = [...techList, ...techList, ...techList]
+  // We duplicate the list twice to make the CSS infinite marquee smooth
+  const repeated = [...techList, ...techList]
 
   return (
-    <BentoCard id="bento-tech" className="col-span-12 overflow-hidden py-6 text-center">
-      <p className="text-xs font-semibold uppercase tracking-widest mb-6 px-1" style={{ color: 'rgb(var(--text-secondary))' }}>
+    <BentoCard id="bento-tech" className="col-span-12 overflow-hidden py-10 text-center relative group">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-hex)] to-transparent opacity-20" />
+      
+      <p className="text-xs font-bold uppercase tracking-[0.2em] mb-8 relative z-10" style={{ color: 'var(--accent-hex)' }}>
         Core Technologies
       </p>
       
       <div className="relative w-full mask-edges overflow-hidden">
         <div className="marquee-container gap-4">
           {repeated.map((tech, i) => (
-            <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-xl flex-shrink-0"
-                 style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+            <div key={i} className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl flex-shrink-0 transition-all duration-300 hover:scale-105"
+                 style={{ 
+                   background: 'rgba(var(--bg-card), 0.5)', 
+                   border: '1px solid var(--border-color)',
+                   boxShadow: '0 4px 20px -10px rgba(0,0,0,0.5)'
+                 }}>
               <span style={{ color: 'var(--accent-hex)' }}>{tech.icon}</span>
-              <span className="text-xs font-medium" style={{ color: 'rgb(var(--text-secondary))' }}>{tech.name}</span>
+              <span className="text-sm font-bold tracking-tight" style={{ color: 'rgb(var(--text-primary))' }}>{tech.name}</span>
             </div>
           ))}
         </div>
@@ -217,7 +238,7 @@ function BlogCard() {
               Writings & Thoughts
             </h3>
             <p className="text-sm max-w-md" style={{ color: 'rgb(var(--text-secondary))' }}>
-              Deep dives into .NET architecture, Node.js performance, and the intricacies of building digital products.
+              Deep dives into scalable architectures, distributed systems, and the engineering principles behind building high-performance digital products.
             </p>
           </div>
         </div>

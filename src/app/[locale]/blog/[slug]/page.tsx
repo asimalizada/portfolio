@@ -17,7 +17,10 @@ interface PageProps {
 export async function generateStaticParams() {
   return posts
     .filter((p) => p.published)
-    .map((p) => ({ slug: p.slugAsParams }))
+    .map((p) => ({
+      locale: 'en',
+      slug: p.slugAsParams,
+    }))
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
