@@ -53,6 +53,13 @@ const JOKES = [
 // ── Command Registry ───────────────────────────
 interface CommandDef { name: string; aliases: string[]; description: string }
 
+const TERMINAL_COLORS = {
+  text: '#c9d1d9',
+  textStrong: '#e6edf3',
+  muted: '#8b949e',
+  bg: '#0d1117',
+} as const
+
 const COMMAND_DEFS: CommandDef[] = [
   { name: 'whoami',        aliases: [],       description: 'Display identity info'       },
   { name: 'about',         aliases: [],       description: 'About me'                    },
@@ -219,7 +226,7 @@ function getCommandOutput(raw: string, cmdHistory: string[]): Line[] | 'clear' |
     { type: 'section', text: '  Availability' },
     { type: 'info',    text: '  🟢  Open to new roles' },
     { type: 'output',  text: '  Type     : Remote · Full-time · Contract' },
-    { type: 'output',  text: '  Focus    : Backend, Cloud-Native, Microservices' },
+    { type: 'output',  text: '  Focus    : Full-Stack Cloud Platforms, Microservices, Integrations' },
     { type: 'output',  text: `  Timezone : ${cvData.timezone} (flexible)` },
   ]
 
@@ -260,7 +267,7 @@ function getCommandOutput(raw: string, cmdHistory: string[]): Line[] | 'clear' |
 
   if (lower === 'cat readme.md') return [
     { type: 'section', text: '  README.md' },
-    { type: 'info',    text: '  # Asim Alizada — Portfolio' },
+    { type: 'info',    text: '  # Asim Alizada - Portfolio' },
     { type: 'output',  text: '  A personal portfolio and blog.' },
     { type: 'output',  text: '  Built with Next.js 15, TypeScript, Framer Motion & MDX.' },
     { type: 'output',  text: '  Explore with the commands above.' },
@@ -324,7 +331,7 @@ function getCommandOutput(raw: string, cmdHistory: string[]): Line[] | 'clear' |
   if (lower === 'ping asim') return [
     { type: 'output', text: `  PING asimalizada.dev (${cvData.email})` },
     { type: 'info',   text: '  64 bytes · seq=1 · ttl=64 · time=1ms' },
-    { type: 'output', text: "  Pong! 👋  I'm here — feel free to reach out." },
+    { type: 'output', text: "  Pong! 👋  I'm here, feel free to reach out." },
   ]
 
   return [
@@ -365,7 +372,7 @@ function renderLine(line: Line, idx: number): React.ReactNode {
     </div>
   )
 
-  const colorMap = { output: 'rgb(var(--text-secondary))', error: '#f85149', info: 'var(--accent-hex)' } as const
+  const colorMap = { output: TERMINAL_COLORS.text, error: '#f85149', info: 'var(--accent-hex)' } as const
   return (
     <div key={idx} className="font-mono text-xs leading-relaxed whitespace-pre-wrap"
       style={{ color: colorMap[line.type as 'output' | 'error' | 'info'], opacity: line.type === 'info' ? 0.85 : undefined }}>
@@ -558,7 +565,7 @@ function InteractiveTerminal({ isOpen, onOpen, onClose }: ITProps) {
           <span className="terminal-dot" style={{ background: '#ff5f57' }} />
           <span className="terminal-dot" style={{ background: '#febc2e' }} />
           <span className="terminal-dot" style={{ background: '#28c840' }} />
-          <span className="ml-3 text-xs font-mono" style={{ color: '#8b949e' }}>~/asim — bash</span>
+          <span className="ml-3 text-xs font-mono" style={{ color: TERMINAL_COLORS.muted }}>~/asim — bash</span>
         </div>
         <div className="pr-1 flex items-center">
           {/* Fix 2: Always-visible hint (0.45 opacity default, 1.0 on hover) */}
@@ -626,7 +633,7 @@ function InteractiveTerminal({ isOpen, onOpen, onClose }: ITProps) {
                   onChange={e => handleInputChange(e.target.value)}
                   onKeyDown={handleKeyDown}
                   className="flex-1 bg-transparent font-mono text-xs outline-none"
-                  style={{ color: 'rgb(var(--text-primary))', caretColor: 'var(--accent-hex)' }}
+                  style={{ color: TERMINAL_COLORS.textStrong, caretColor: 'var(--accent-hex)' }}
                   placeholder="type a command... (try 'help')"
                   inputMode="text"
                   autoComplete="off"
@@ -669,7 +676,7 @@ function InteractiveTerminal({ isOpen, onOpen, onClose }: ITProps) {
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.15 }}
                     className="absolute left-2 right-2 bottom-full mb-1 rounded-lg overflow-hidden border shadow-2xl"
-                    style={{ background: '#0d1117', borderColor: 'var(--border-color)', zIndex: 50 }}
+                    style={{ background: TERMINAL_COLORS.bg, borderColor: 'var(--border-color)', zIndex: 50 }}
                   >
                     {suggestions.map((s, i) => (
                       <div
@@ -677,7 +684,7 @@ function InteractiveTerminal({ isOpen, onOpen, onClose }: ITProps) {
                         className="px-3 py-2.5 sm:py-1.5 font-mono text-xs cursor-pointer flex items-center gap-2 transition-colors"
                         style={{
                           background: i === suggIdx ? 'rgba(var(--accent-rgb), 0.12)' : 'transparent',
-                          color: i === suggIdx ? 'var(--accent-hex)' : 'rgb(var(--text-secondary))',
+                          color: i === suggIdx ? 'var(--accent-hex)' : TERMINAL_COLORS.text,
                         }}
                         onMouseDown={e => { e.preventDefault(); execute(s) }}
                         onMouseEnter={() => setSuggIdx(i)}
@@ -787,13 +794,13 @@ export function TerminalHero() {
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6">
-              Building robust <br />
-              <span className="gradient-text">cloud-native</span> <br />
-              experiences.
+              Building <br />
+              cloud <br />
+              <span className="gradient-text">platforms.</span>
             </h1>
 
             <p className="text-lg max-w-lg pb-8 leading-relaxed" style={{ color: 'rgb(var(--text-secondary))' }}>
-              Hi, I&apos;m <strong style={{ color: 'rgb(var(--text-primary))' }}>Asim Alizada</strong>, a Senior Software Engineer specializing in scalable enterprise systems and modern web technologies.
+              Lead/Senior Software Engineer focused on .NET, Node.js, React/Next.js, Angular, microservices, integrations, and production-ready systems.
             </p>
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-5">
@@ -857,7 +864,7 @@ export function TerminalHero() {
                       <TerminalIcon size={18} />
                     </div>
                     <div>
-                      <p className="text-xs font-bold leading-tight" style={{ color: 'rgb(var(--text-primary))' }}>5+ Years</p>
+                      <p className="text-xs font-bold leading-tight" style={{ color: 'rgb(var(--text-primary))' }}>6+ Years</p>
                       <p className="text-[10px]" style={{ color: 'rgb(var(--text-secondary))' }}>Engineering</p>
                     </div>
                   </div>
@@ -882,7 +889,7 @@ export function TerminalHero() {
                       <TerminalIcon size={18} />
                     </div>
                     <div>
-                      <p className="text-xs font-bold leading-tight" style={{ color: 'rgb(var(--text-primary))' }}>5+ Years</p>
+                      <p className="text-xs font-bold leading-tight" style={{ color: 'rgb(var(--text-primary))' }}>6+ Years</p>
                       <p className="text-[10px]" style={{ color: 'rgb(var(--text-secondary))' }}>Engineering</p>
                     </div>
                   </motion.div>

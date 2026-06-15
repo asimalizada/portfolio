@@ -8,13 +8,14 @@ import { Footer } from '@/components/layout/Footer'
 import { CustomCursor } from '@/components/layout/CustomCursor'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://asimalizada.vercel.app'),
   title: {
-    default: 'Asim Alizada | Senior Software Engineer',
+    default: 'Asim Alizada | Lead/Senior Software Engineer',
     template: '%s | Asim Alizada',
   },
   description:
-    'Senior Software Engineer specializing in .NET, Node.js, and cloud-native systems. Based in Istanbul, Türkiye.',
-  keywords: ['software engineer', '.NET', 'Node.js', 'React', 'Azure', 'portfolio', 'blog'],
+    'Full-stack cloud platforms, microservices, integrations, and production-ready systems using .NET, Node.js, React/Next.js, and Angular.',
+  keywords: ['lead software engineer', 'senior software engineer', '.NET', 'Node.js', 'React', 'Next.js', 'Angular', 'microservices', 'integrations', 'cloud platforms', 'portfolio', 'blog'],
   authors: [{ name: 'Asim Alizada' }],
   creator: 'Asim Alizada',
   openGraph: {
@@ -22,13 +23,13 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://asimalizada.vercel.app',
     siteName: 'Asim Alizada',
-    title: 'Asim Alizada | Senior Software Engineer',
-    description: 'Senior Software Engineer specializing in .NET, Node.js, and cloud-native systems.',
+    title: 'Asim Alizada | Lead/Senior Software Engineer',
+    description: 'Building full-stack cloud platforms with .NET, Node.js, React/Next.js, microservices, integrations, and release-ready production systems.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Asim Alizada | Senior Software Engineer',
-    description: 'Senior Software Engineer specializing in .NET, Node.js, and cloud-native systems.',
+    title: 'Asim Alizada | Lead/Senior Software Engineer',
+    description: 'Building full-stack cloud platforms with .NET, Node.js, React/Next.js, microservices, integrations, and release-ready production systems.',
   },
   robots: { index: true, follow: true },
 }

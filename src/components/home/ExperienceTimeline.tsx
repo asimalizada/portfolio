@@ -76,7 +76,7 @@ export function ExperienceTimeline() {
             Work Experience
           </h2>
           <p className="text-base max-w-xl" style={{ color: 'rgb(var(--text-secondary))' }}>
-            5+ years across fintech, cybersecurity, and energy building systems that scale.
+            6+ years across cybersecurity, fitness, energy, EdTech, and enterprise systems.
           </p>
         </motion.div>
 

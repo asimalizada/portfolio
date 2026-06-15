@@ -181,7 +181,7 @@ function LiveBuildCard() {
           Cloud Fitness Platform
         </h4>
         <p className="text-sm max-w-md" style={{ color: 'rgb(var(--text-secondary))' }}>
-          Leading backend architecture at Webidea - microservices, Railway deployments, Cloudflare, and scalable API design.
+          Leading full-stack development at Webidea, platform architecture, product workflows, release management, Railway deployments, Cloudflare, and scalable API design.
         </p>
       </div>
 
