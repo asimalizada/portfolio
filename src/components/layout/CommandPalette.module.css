@@ -1,0 +1,109 @@
+.backdrop {
+  background: rgba(22, 26, 28, 0.42);
+}
+
+.dialog { width: min(580px, calc(100% - 2rem)); }
+
+:global(.dark) .backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.panel {
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: rgb(var(--bg-card));
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+}
+
+:global(.dark) .panel {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+
+.searchRow {
+  border-bottom-color: var(--border-color);
+}
+
+.searchRow:focus-within {
+  border-bottom-color: var(--accent-hex);
+  box-shadow: inset 0 -1px 0 var(--accent-hex);
+}
+
+.searchInput:focus {
+  outline: none;
+}
+
+.escapeKey {
+  padding: 2px 5px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: rgb(var(--text-secondary));
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.group :global([cmdk-group-heading]) {
+  padding: 0.65rem 0.625rem 0.35rem;
+  color: rgb(var(--text-secondary));
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.5rem 0.625rem;
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  color: rgb(var(--text-primary));
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.item:hover { background: rgb(var(--bg-card-hover)); }
+
+.item[aria-selected='true'] {
+  border-left-color: var(--accent-hex);
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--accent-hex);
+  outline-offset: -2px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--border-color);
+  color: rgb(var(--text-secondary));
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.footer kbd {
+  padding: 2px 4px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: rgb(var(--text-primary));
+  font: inherit;
+}

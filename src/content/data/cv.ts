@@ -21,7 +21,7 @@ export interface Education {
 
 export const cvData = {
   name: 'Asim Alizada',
-  title: 'Lead/Senior Software Engineer',
+  title: 'Senior Software Engineer',
   email: 'asim.alizada.dev@gmail.com',
   github: 'https://github.com/asimalizada',
   linkedin: 'https://www.linkedin.com/in/alizada-asim',
@@ -30,7 +30,7 @@ export const cvData = {
   cvPath: '/cv/Asim Alizada - CV.pdf',
   profilePhoto: '/cv/profile.png',
   summary:
-    'Lead/Senior Software Engineer with 6+ years of experience building full-stack, cloud-based platforms using .NET, Node.js, React, Next.js, and Angular. Strong background in microservices, integrations, release management, and scalable product delivery across cybersecurity, fitness, energy, EdTech, and enterprise systems.',
+    'Senior Software Engineer with 6+ years of experience building full-stack, cloud-based platforms using .NET, Node.js, React, Next.js, and Angular. Strong background in microservices, integrations, release management, and scalable product delivery across cybersecurity, fitness, energy, EdTech, and enterprise systems.',
   currentStatus: 'Leading full-stack cloud platform delivery at Webidea',
   skills: {
     languages: ['C#', 'TypeScript', 'JavaScript', 'Python', 'SQL'],

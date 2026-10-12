@@ -3,26 +3,27 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts')
 
+type VeliteCompiler = {
+  hooks: { beforeCompile: { tapPromise: (name: string, handler: () => Promise<void>) => void } }
+  options: { mode?: string }
+}
+
+type WebpackConfig = { plugins: unknown[] }
+
 class VeliteWebpackPlugin {
   static started = false
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  apply(compiler: any) {
+  apply(compiler: VeliteCompiler) {
     compiler.hooks.beforeCompile.tapPromise('VeliteWebpackPlugin', async () => {
       if (VeliteWebpackPlugin.started) return
       VeliteWebpackPlugin.started = true
-      const { build, watch } = await import('velite') as any
-      if (compiler.options.mode === 'development') {
-        watch({ logLevel: 'warn' })
-      } else {
-        await build({ logLevel: 'warn' })
-      }
+      const { build } = await import('velite')
+      await build({ logLevel: 'warn', watch: compiler.options.mode === 'development' })
     })
   }
 }
 
 const nextConfig: NextConfig = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  webpack(config: any) {
+  webpack(config: WebpackConfig) {
     config.plugins.push(new VeliteWebpackPlugin())
     return config
   },

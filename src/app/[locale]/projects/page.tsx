@@ -1,127 +1,140 @@
-'use client'
+import type { Metadata } from 'next'
+import { projects, type Project } from '@/content/data/projects'
+import { ProjectMotion } from './ProjectMotion'
+import styles from './projects.module.css'
 
-import { useState, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { projects } from '@/content/data/projects'
-import { ProjectCard } from '@/components/projects/ProjectCard'
+export const metadata: Metadata = {
+  title: 'Selected Projects',
+  description: 'A collection of production platforms, applications, and engineering projects I have worked on.',
+  alternates: { canonical: '/projects' },
+  openGraph: {
+    title: 'Selected Projects | Asim Alizada',
+    description: 'A collection of production platforms, applications, and engineering projects I have worked on.',
+    url: '/projects',
+    type: 'website',
+    siteName: 'Asim Alizada',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'Selected Projects | Asim Alizada',
+    description: 'A collection of production platforms, applications, and engineering projects I have worked on.',
+  },
+}
 
-const ALL_FILTER = 'All'
+function ProjectLinks({ project }: { project: Project }) {
+  return (
+    <div className={styles.projectLinks}>
+      {project.demo && (
+        <a id={`project-${project.id}-demo`} href={project.demo} target="_blank" rel="noopener noreferrer">
+          Visit project <span aria-hidden="true">↗</span>
+        </a>
+      )}
+      {project.github && (
+        <a id={`project-${project.id}-github`} href={project.github} target="_blank" rel="noopener noreferrer">
+          Source code <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </div>
+  )
+}
+
+function TechnicalRecord({ project }: { project: Project }) {
+  return (
+    <details className={styles.technicalRecord} data-technical-record>
+      <summary>Technical record <span aria-hidden="true">+</span></summary>
+      <div className={styles.technicalBody}>
+        {project.impact && project.impact.length > 0 && (
+          <div>
+            <h4>Engineering work</h4>
+            <ul>{project.impact.map((item) => <li key={item}>{item}</li>)}</ul>
+          </div>
+        )}
+        <div>
+          <h4>Complete stack</h4>
+          <p>{project.tech.join(' / ')}</p>
+        </div>
+      </div>
+    </details>
+  )
+}
+
+function FeaturedProject({ project }: { project: Project }) {
+  return (
+    <article id={`project-${project.id}`} className={styles.featuredProject} data-project-reveal>
+      <div className={styles.featuredTopline}>
+        <span>Featured case study</span>
+        <span>{project.tags.join(' / ')}</span>
+      </div>
+      <div className={styles.featuredGrid}>
+        <div className={styles.featuredPrimary}>
+          <h2>{project.title}</h2>
+          {project.role && <p className={styles.role}>{project.role}</p>}
+          <p className={styles.featuredDescription}>{project.description}</p>
+        </div>
+        <div className={styles.featuredSecondary}>
+          <h3>Selected engineering work</h3>
+          <ul>{project.impact?.slice(0, 3).map((item) => <li key={item}>{item}</li>)}</ul>
+          <p className={styles.stackLine}><span>Stack</span>{project.tech.slice(0, 5).join(' / ')}</p>
+          <ProjectLinks project={project} />
+        </div>
+      </div>
+      <TechnicalRecord project={project} />
+    </article>
+  )
+}
+
+function ArchiveProject({ project, index }: { project: Project; index: number }) {
+  return (
+    <article id={`project-${project.id}`} className={styles.archiveProject} data-project-reveal>
+      <div className={styles.archiveNumber}>{String(index).padStart(2, '0')}</div>
+      <div className={styles.archiveIdentity}>
+        <p className={styles.category}>{project.tags.join(' / ')}</p>
+        <h3>{project.title}</h3>
+        {project.role && <p className={styles.role}>{project.role}</p>}
+        {project.status === 'archived' && <span className={styles.archiveStatus}>Archived</span>}
+      </div>
+      <p className={styles.archiveDescription}>{project.description}</p>
+      <div className={styles.archiveMetadata}>
+        <p className={styles.stackLine}><span>Stack</span>{project.tech.slice(0, 4).join(' / ')}</p>
+        <ProjectLinks project={project} />
+      </div>
+      <TechnicalRecord project={project} />
+    </article>
+  )
+}
 
 export default function ProjectsPage() {
-  const [activeFilter, setActiveFilter] = useState(ALL_FILTER)
-
-  // Extract unique tech tags for filters
-  const allTech = useMemo(() => {
-    const techSet = new Set<string>()
-    projects.forEach(p => p.tech.forEach(t => techSet.add(t)))
-    // Simplify filters to main categories
-    return [ALL_FILTER, 'C#', 'Next.js', 'Docker', 'Cloud', 'Open Source']
-  }, [])
-
-  const filteredProjects = useMemo(() => {
-    if (activeFilter === ALL_FILTER) return projects
-    return projects.filter(p => {
-      if (activeFilter === 'Cloud') return p.tech.some(t => ['AWS', 'Azure', 'Docker'].includes(t))
-      if (activeFilter === 'Open Source') return p.tags.includes('Open Source')
-      return p.tech.includes(activeFilter)
-    })
-  }, [activeFilter])
-
-  const featured = filteredProjects.filter((p) => p.featured)
-  const rest = filteredProjects.filter((p) => !p.featured)
+  const featured = projects.find((project) => project.id === 'fitxlink')
+  const archive = projects.filter((project) => project.id !== 'fitxlink')
 
   return (
-    <div className="relative min-h-screen">
-      {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-[var(--accent-hex)] opacity-[0.07] blur-[120px] pointer-events-none" />
+    <div className={styles.page}>
+      <ProjectMotion />
+      <div className="site-container">
+        <header className={styles.introduction}>
+          <p className={styles.eyebrow}>Project archive</p>
+          <div className={styles.introGrid}>
+            <div>
+              <h1>Selected Projects.</h1>
+              <p>A collection of production platforms, applications, and engineering projects I&apos;ve worked on.</p>
+            </div>
+            <p className={styles.projectCount}>{String(projects.length).padStart(2, '0')} projects in the archive</p>
+          </div>
+        </header>
 
-      <div className="max-w-6xl mx-auto px-4 py-24 relative">
-        {/* Header */}
-        <div className="flex flex-col items-center text-center pb-5">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-b from-[var(--text-primary)] to-[var(--text-secondary)]"
-          >
-            Projects
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-xl max-w-2xl text-center"
-            style={{ color: 'rgb(var(--text-secondary))' }}
-          >
-            A collection of things I&apos;ve built, from production SaaS platforms to internal tools and open-source experiments.
-          </motion.p>
-        </div>
-
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-2 pb-5"
-        >
-          {allTech.map((tech) => (
-            <button
-              key={tech}
-              onClick={() => setActiveFilter(tech)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
-                activeFilter === tech
-                  ? 'bg-[var(--accent-hex)] text-white border-[var(--accent-hex)]'
-                  : 'bg-[var(--border-color)]/30 text-[var(--text-secondary)] border-transparent hover:border-[var(--accent-hex)]/50'
-              }`}
-            >
-              {tech}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Projects Grid */}
-        <div className="space-y-20">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeFilter}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="space-y-16"
-            >
-              {/* Featured Section */}
-              {featured.length > 0 && (
-                <div className="space-y-8">
-                  <div className="flex items-center gap-4">
-                    <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--accent-hex)]">Featured Spotlight</h2>
-                    <div className="h-px flex-1 bg-gradient-to-r from-[var(--accent-hex)]/30 to-transparent" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {featured.map((project, idx) => (
-                      <div key={project.id} className={idx === 0 && activeFilter === ALL_FILTER ? 'md:col-span-2 lg:col-span-2' : ''}>
-                        <ProjectCard project={project} />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Other Projects */}
-              {rest.length > 0 && (
-                <div className="space-y-8">
-                  <div className="flex items-center gap-4">
-                    <h2 className="text-sm font-bold uppercase tracking-[0.2em]" style={{ color: 'rgb(var(--text-secondary))' }}>Discovery</h2>
-                    <div className="h-px flex-1 bg-gradient-to-r from-[var(--border-color)] to-transparent" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {rest.map((project) => (
-                      <ProjectCard key={project.id} project={project} />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
+        <div className={styles.results}>
+          {featured && <FeaturedProject project={featured} />}
+          {archive.length > 0 && (
+            <section className={styles.archive} aria-labelledby="archive-title">
+              <div className={styles.archiveHeading}>
+                <h2 id="archive-title">Project archive</h2>
+                <span>{String(archive.length).padStart(2, '0')} records</span>
+              </div>
+              <div className={styles.archiveList}>
+                {archive.map((project, index) => <ArchiveProject key={project.id} project={project} index={index + 1} />)}
+              </div>
+            </section>
+          )}
         </div>
       </div>
     </div>

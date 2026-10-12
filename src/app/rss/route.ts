@@ -1,7 +1,8 @@
 import { posts } from '@/.velite'
+import { SITE_URL } from '@/site'
 
 export async function GET() {
-  const siteUrl = 'https://asimalizada.vercel.app' // TODO: update to your custom domain if bought later
+  const siteUrl = SITE_URL
 
   const publishedPosts = posts
     .filter((p) => p.published)

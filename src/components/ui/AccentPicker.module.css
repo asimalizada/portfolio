@@ -1,0 +1,79 @@
+.popover {
+  position: absolute;
+  top: 3rem;
+  right: 0;
+  z-index: 50;
+  min-width: 160px;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: rgb(var(--bg-card));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+:global(.dark) .popover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.heading {
+  margin: 0 0 6px;
+  padding: 4px 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  color: rgb(var(--text-secondary));
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: rgb(var(--text-primary));
+  font-size: 0.75rem;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.option:hover { background: rgb(var(--bg-card-hover)); }
+
+.optionSelected {
+  border-color: var(--border-color);
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.option:focus-visible {
+  outline: 2px solid var(--accent-hex);
+  outline-offset: -2px;
+}
+
+.swatch {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+}
+
+.selectionMark {
+  margin-left: auto;
+  color: var(--accent-hex);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}

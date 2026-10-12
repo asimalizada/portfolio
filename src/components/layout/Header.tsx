@@ -1,12 +1,16 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { Menu } from 'lucide-react'
 import { ThemeToggle } from '@/components/ui/ThemeToggle'
 import { AccentPicker } from '@/components/ui/AccentPicker'
 import { CommandPaletteToggle } from '@/components/layout/CommandPalette'
+import { SystemConsole } from '@/components/layout/SystemConsole'
 import { cvData } from '@/content/data/cv'
+import utilityStyles from './HeaderUtilities.module.css'
 
 function GithubIcon({ size }: { size: number }) {
   return (
@@ -36,17 +40,51 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname()
+  const reduceMotion = useReducedMotion()
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const mobileNavRef = useRef<HTMLDivElement>(null)
+  const mobileNavButtonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (!mobileNavRef.current?.contains(event.target as Node)) setMobileNavOpen(false)
+    }
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && mobileNavRef.current?.querySelector('#mobile-site-navigation')) {
+        setMobileNavOpen(false)
+        mobileNavButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('mousedown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('mousedown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [])
+
+  useEffect(() => {
+    const desktopQuery = window.matchMedia('(min-width: 768px)')
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (!event.matches) return
+      if (mobileNavRef.current?.contains(document.activeElement)) {
+        document.querySelector<HTMLElement>('#nav-home')?.focus()
+      }
+      setMobileNavOpen(false)
+    }
+    desktopQuery.addEventListener('change', closeOnDesktop)
+    return () => desktopQuery.removeEventListener('change', closeOnDesktop)
+  }, [])
 
   return (
-    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl">
+    <div className="fixed top-0 inset-x-0 z-50 w-full">
       <motion.header
-        className="header-blur h-14 rounded-full border shadow-lg"
-        style={{ borderColor: 'var(--border-color)', background: 'rgba(var(--bg-card), 0.6)' }}
+        className="header-blur h-16"
         initial={{ y: -64, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as any }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }}
       >
-        <div className="px-5 h-full flex items-center justify-between gap-4">
+        <div className="site-container h-full flex items-center justify-between gap-4">
         {/* Logo */}
         <Link
           href="/"
@@ -54,7 +92,7 @@ export function Header() {
           style={{ color: 'rgb(var(--text-primary))' }}
         >
           <span
-            className="w-7 h-7 rounded-lg text-[11px] font-black flex items-center justify-center text-white"
+            className="w-7 h-7 rounded-sm text-[11px] font-black flex items-center justify-center text-white"
             style={{ background: 'var(--accent-hex)', fontFamily: 'var(--font-mono)', letterSpacing: '-0.05em' }}
           >
             &gt;_
@@ -76,7 +114,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 id={`nav-${link.label.toLowerCase()}`}
-                className="relative px-3 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200"
+                className="relative px-3 py-1.5 text-xs font-mono font-medium uppercase tracking-wide rounded-sm transition-colors duration-200"
                 style={{
                   color: isActive ? 'rgb(var(--text-primary))' : 'rgb(var(--text-secondary))',
                 }}
@@ -84,8 +122,8 @@ export function Header() {
                 {isActive && (
                   <motion.span
                     layoutId="nav-highlight"
-                    className="absolute inset-0 rounded-lg"
-                    style={{ background: 'rgba(var(--accent-rgb), 0.1)' }}
+                    className="absolute inset-0 border-b-2"
+                    style={{ borderColor: 'var(--accent-hex)' }}
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
                   />
                 )}
@@ -96,7 +134,45 @@ export function Header() {
         </nav>
 
         {/* Right controls */}
-        <div className="flex items-center gap-2">
+        <div className={utilityStyles.strip}>
+          <div ref={mobileNavRef} className={utilityStyles.mobileNav}>
+            <button
+              ref={mobileNavButtonRef}
+              type="button"
+              aria-label="Open site navigation"
+              aria-expanded={mobileNavOpen}
+              aria-controls="mobile-site-navigation"
+              onClick={() => setMobileNavOpen((open) => !open)}
+              className={utilityStyles.control}
+            >
+              <Menu size={16} aria-hidden="true" />
+            </button>
+            <AnimatePresence>
+              {mobileNavOpen && (
+                <motion.nav
+                  id="mobile-site-navigation"
+                  aria-label="Site navigation"
+                  className={utilityStyles.mobileNavPanel}
+                  initial={reduceMotion ? false : { opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: reduceMotion ? 0 : -6 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.18, ease: 'easeOut' }}
+                >
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      aria-current={link.href === '/' ? pathname === '/' ? 'page' : undefined : pathname.startsWith(link.href) ? 'page' : undefined}
+                      onClick={() => setMobileNavOpen(false)}
+                    >
+                      {link.label}
+                      <span aria-hidden="true">↗</span>
+                    </Link>
+                  ))}
+                </motion.nav>
+              )}
+            </AnimatePresence>
+          </div>
           {/* Social icons desktop only */}
           <a
             href={cvData.github ?? '#'}
@@ -104,10 +180,7 @@ export function Header() {
             aria-label="GitHub"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:flex w-8 h-8 rounded-lg items-center justify-center transition-all duration-200 hover:scale-110"
-            style={{ color: 'rgb(var(--text-secondary))' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-hex)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgb(var(--text-secondary))' }}
+            className={`hidden md:flex ${utilityStyles.social}`}
           >
             <GithubIcon size={16} />
           </a>
@@ -117,14 +190,12 @@ export function Header() {
             aria-label="LinkedIn"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:flex w-8 h-8 rounded-lg items-center justify-center transition-all duration-200 hover:scale-110"
-            style={{ color: 'rgb(var(--text-secondary))' }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = 'var(--accent-hex)' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = 'rgb(var(--text-secondary))' }}
+            className={`hidden md:flex ${utilityStyles.social}`}
           >
             <LinkedinIcon size={16} />
           </a>
-          <div className="hidden md:block w-px h-4 mx-1" style={{ background: 'var(--border-color)' }} />
+          <div className={`hidden md:block ${utilityStyles.divider}`} aria-hidden="true" />
+          <SystemConsole />
           <CommandPaletteToggle />
           <ThemeToggle />
           <AccentPicker />

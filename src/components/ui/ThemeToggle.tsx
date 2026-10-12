@@ -3,17 +3,20 @@
 import { useTheme } from 'next-themes'
 import { motion } from 'framer-motion'
 import { SunMedium, Moon } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
+import utilityStyles from '@/components/layout/HeaderUtilities.module.css'
+
+const subscribe = () => () => {}
+const clientSnapshot = () => true
+const serverSnapshot = () => false
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => setMounted(true), [])
+  const mounted = useSyncExternalStore(subscribe, clientSnapshot, serverSnapshot)
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-xl" style={{ background: 'var(--border-color)' }} />
+      <div className={utilityStyles.control} aria-hidden="true" />
     )
   }
 
@@ -24,14 +27,7 @@ export function ThemeToggle() {
       id="theme-toggle"
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
-      className="relative w-9 h-9 rounded-xl flex items-center justify-center cursor-pointer"
-      style={{
-        background: 'var(--border-color)',
-        border: '1px solid var(--border-color)',
-        color: 'rgb(var(--text-secondary))',
-      }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className={`relative flex ${utilityStyles.control}`}
     >
       <motion.span
         key={isDark ? 'moon' : 'sun'}

@@ -1,0 +1,68 @@
+.frame {
+  min-width: 0;
+  max-width: 100%;
+  margin: 1.7em 0 2em;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 2.7rem;
+  padding: 0 0.65rem 0 1rem;
+  border-bottom: 1px solid var(--border-color);
+  background: rgb(var(--bg-card));
+  font: 500 0.69rem/1.4 var(--font-mono);
+  text-transform: uppercase;
+}
+.language { color: rgb(var(--text-secondary)); }
+.actions { display: flex; align-items: center; gap: 0.25rem; }
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.38rem;
+  min-height: 2.5rem;
+  border: 0;
+  border-radius: 0;
+  padding: 0.35rem 0.55rem;
+  background: transparent;
+  color: rgb(var(--text-secondary));
+  font: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+.control:hover,
+.control:focus-visible,
+.control[aria-pressed='true'] { color: var(--accent-hex); }
+.control:focus-visible { outline: 2px solid var(--accent-hex); outline-offset: -2px; }
+.copyControl { width: 6.9rem; white-space: nowrap; }
+.frame .code.code {
+  max-width: 100%;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.wrapped .code:global(pre),
+.wrapped .code :global(code) {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .control { transition: none; }
+}

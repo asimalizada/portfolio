@@ -17,6 +17,8 @@ import {
   Terminal,
 } from 'lucide-react'
 import { cvData } from '@/content/data/cv'
+import utilityStyles from './HeaderUtilities.module.css'
+import styles from './CommandPalette.module.css'
 
 const navActions = [
   { id: 'go-home',     label: 'Home',     icon: <Home size={15} />,       href: '/',         group: 'Navigation' },
@@ -52,14 +54,7 @@ function CMDKTrigger() {
         id="command-palette-trigger-mobile"
         aria-label="Open search"
         onClick={() => setOpen(true)}
-        className="flex sm:hidden w-9 h-9 items-center justify-center rounded-xl cursor-pointer"
-        style={{
-          background: 'var(--border-color)',
-          border: '1px solid var(--border-color)',
-          color: 'rgb(var(--text-secondary))',
-        }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
+        className={`flex sm:hidden ${utilityStyles.control}`}
       >
         <Search size={15} />
       </motion.button>
@@ -69,20 +64,12 @@ function CMDKTrigger() {
         id="command-palette-trigger"
         aria-label="Open command palette (Ctrl+K)"
         onClick={() => setOpen(true)}
-        className="hidden sm:flex items-center gap-2 px-3 h-9 rounded-xl text-xs cursor-pointer"
-        style={{
-          background: 'var(--border-color)',
-          border: '1px solid var(--border-color)',
-          color: 'rgb(var(--text-secondary))',
-        }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        className={`hidden sm:flex ${utilityStyles.control} ${utilityStyles.search}`}
       >
         <Search size={13} />
         <span>Search</span>
         <kbd
-          className="hidden md:inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-xs font-mono"
-          style={{ background: 'rgba(255,255,255,0.06)', color: 'rgb(var(--text-secondary))' }}
+          className={`hidden md:inline-flex ${utilityStyles.shortcut}`}
         >
           ⌘K
         </kbd>
@@ -132,8 +119,7 @@ function CommandPaletteDialog({
         <>
           {/* Backdrop */}
           <motion.div
-            className="fixed inset-0 z-[998]"
-            style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+            className={`fixed inset-0 z-[998] ${styles.backdrop}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -142,35 +128,25 @@ function CommandPaletteDialog({
 
           {/* Dialog */}
           <motion.div
-            className="fixed top-[28%] left-1/2 z-[999] w-full"
-            style={{ maxWidth: '580px' }}
+            className={`fixed top-[28%] left-1/2 z-[999] ${styles.dialog}`}
             initial={{ opacity: 0, x: '-50%', y: '-4px' }}
             animate={{ opacity: 1, x: '-50%', y: '0px' }}
             exit={{ opacity: 0, x: '-50%', y: '-4px' }}
             transition={{ duration: 0.15 }}
           >
-            <Command
-              className="rounded-2xl overflow-hidden"
-              style={{
-                background: 'rgb(var(--bg-card))',
-                border: '1px solid var(--border-hover)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.5)',
-              }}
-            >
+            <Command className={styles.panel}>
               <div
-                className="flex items-center gap-3 px-4 border-b"
-                style={{ borderColor: 'var(--border-color)' }}
+                className={`flex items-center gap-3 px-4 border-b ${styles.searchRow}`}
               >
                 <Search size={16} style={{ color: 'rgb(var(--text-secondary))' }} />
                 <Command.Input
                   placeholder="Search or jump to..."
-                  className="flex-1 h-12 bg-transparent outline-none text-sm"
+                  className={`flex-1 h-12 bg-transparent text-sm ${styles.searchInput}`}
                   style={{ color: 'rgb(var(--text-primary))' }}
                   autoFocus
                 />
                 <kbd
-                  className="text-xs px-1.5 py-0.5 rounded cursor-pointer"
-                  style={{ background: 'rgba(255,255,255,0.06)', color: 'rgb(var(--text-secondary))' }}
+                  className={styles.escapeKey}
                   onClick={() => setOpen(false)}
                 >
                   ESC
@@ -185,13 +161,13 @@ function CommandPaletteDialog({
                   No results found.
                 </Command.Empty>
 
-                <Command.Group heading="Navigation" className="cmdk-group">
+                <Command.Group heading="Navigation" className={styles.group}>
                   {navActions.map((action) => (
                     <Command.Item
                       key={action.id}
                       id={action.id}
                       onSelect={() => runAction(() => router.push(action.href))}
-                      className="cmdk-item"
+                      className={styles.item}
                     >
                       <span style={{ color: 'var(--accent-hex)' }}>{action.icon}</span>
                       {action.label}
@@ -199,11 +175,11 @@ function CommandPaletteDialog({
                   ))}
                 </Command.Group>
 
-                <Command.Group heading="Actions" className="cmdk-group">
+                <Command.Group heading="Actions" className={styles.group}>
                   <Command.Item
                     id="cmd-toggle-theme"
                     onSelect={() => runAction(() => setTheme(theme === 'dark' ? 'light' : 'dark'))}
-                    className="cmdk-item"
+                    className={styles.item}
                   >
                     <span style={{ color: 'var(--accent-hex)' }}>
                       {theme === 'dark' ? <SunMedium size={15} /> : <Moon size={15} />}
@@ -213,7 +189,7 @@ function CommandPaletteDialog({
                   <Command.Item
                     id="cmd-download-cv"
                     onSelect={() => runAction(() => window.open(cvData.cvPath, '_blank'))}
-                    className="cmdk-item"
+                    className={styles.item}
                   >
                     <span style={{ color: 'var(--accent-hex)' }}><Download size={15} /></span>
                     Download CV
@@ -221,7 +197,7 @@ function CommandPaletteDialog({
                   <Command.Item
                     id="cmd-contact"
                     onSelect={() => runAction(() => window.open(`mailto:${cvData.email}`))}
-                    className="cmdk-item"
+                    className={styles.item}
                   >
                     <span style={{ color: 'var(--accent-hex)' }}><Terminal size={15} /></span>
                     Send Email
@@ -229,13 +205,10 @@ function CommandPaletteDialog({
                 </Command.Group>
               </Command.List>
 
-              <div
-                className="px-4 py-2 border-t flex items-center gap-3 text-xs"
-                style={{ borderColor: 'var(--border-color)', color: 'rgb(var(--text-secondary))' }}
-              >
-                <span>↑↓ navigate</span>
-                <span>↵ select</span>
-                <span>ESC close</span>
+              <div className={styles.footer}>
+                <span><kbd>↑↓</kbd> navigate</span>
+                <span><kbd>↵</kbd> select</span>
+                <span><kbd>ESC</kbd> close</span>
               </div>
             </Command>
           </motion.div>

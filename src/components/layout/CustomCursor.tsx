@@ -1,21 +1,27 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { motion } from 'framer-motion'
+
+const cursorMediaQuery = '(pointer: coarse), (prefers-reduced-motion: reduce)'
+
+function subscribeToCursorPreference(onChange: () => void) {
+  const media = window.matchMedia(cursorMediaQuery)
+  media.addEventListener('change', onChange)
+  return () => media.removeEventListener('change', onChange)
+}
+
+const cursorEnabled = () => !window.matchMedia(cursorMediaQuery).matches
+const cursorDisabledOnServer = () => false
 
 export function CustomCursor() {
   const [pos, setPos] = useState({ x: -100, y: -100 })
   const [isPointer, setIsPointer] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const showCursor = useSyncExternalStore(subscribeToCursorPreference, cursorEnabled, cursorDisabledOnServer)
 
   useEffect(() => {
-    setMounted(true)
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      setIsMobile(true)
-      return
-    }
+    if (!showCursor) return
 
     const move = (e: MouseEvent) => {
       setPos({ x: e.clientX, y: e.clientY })
@@ -34,10 +40,9 @@ export function CustomCursor() {
       document.removeEventListener('mouseleave', hide)
       document.removeEventListener('mouseenter', show)
     }
-  }, [])
+  }, [showCursor])
 
-  // Avoid hydration mismatch by waiting for mount
-  if (!mounted || isMobile) return null
+  if (!showCursor) return null
 
   return (
     <>
